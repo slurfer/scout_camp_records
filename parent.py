@@ -4,15 +4,19 @@ from typing import Dict, Tuple, List, Any
 from value import Value
 from Errors import *
 from database_table import DatabaseTable
+import json
 
 
 
 
 
-TABLE = 'programmers'
+TABLE = PARENTS_DATABASE
 
-class Programmer(DatabaseTable):
-    TABLE_NAME: str = 'programmers'
+class Parent(DatabaseTable):
+    RATING_MINIMAL_VALUE: int = 0
+    RAGING_MAXIMAL_VALUE: int = 5
+    TABLE_NAME: str = PARENTS_DATABASE
+
 
 
     def __init__(
@@ -20,6 +24,9 @@ class Programmer(DatabaseTable):
         id: int = None,
         name: str = None,
         surname: str = None,
+        relationship_with_child: str = None,
+        phone: int = None,
+        email: str = None,
         query: str = None
     ) -> None:
         # -------- values --------
@@ -30,16 +37,25 @@ class Programmer(DatabaseTable):
             ID: Value(ID, int, True, id, primary_key=True, editable=False),
             NAME: Value(NAME, str, True, name),
             SURNAME: Value(SURNAME, str, True, surname),
+            RELATIONSHIP_WITH_CHILD: Value(RELATIONSHIP_WITH_CHILD, str, True, relationship_with_child),
+            PHONE: Value(PHONE, str, False, phone),
+            EMAIL: Value(EMAIL, str, False, email)
         }
     
     def init_from_query(self, query):
         id = int(query[0])
         name = str(query[1])
         surname = str(query[2])
+        relationship_with_child = str(query[3])
+        phone = str(query[4])
+        email = str(query[5])
         self.values: Dict[str, Value] = {
             ID: Value(ID, int, True, id, primary_key=True, editable=False),
             NAME: Value(NAME, str, True, name),
             SURNAME: Value(SURNAME, str, True, surname),
+            RELATIONSHIP_WITH_CHILD: Value(RELATIONSHIP_WITH_CHILD, str, True, relationship_with_child),
+            PHONE: Value(PHONE, str, False, phone),
+            EMAIL: Value(EMAIL, str, False, email)
         }
     
 
@@ -48,6 +64,9 @@ class Programmer(DatabaseTable):
             ID: self.values[ID].value,
             NAME: self.values[NAME].value,
             SURNAME: self.values[SURNAME].value,
+            RELATIONSHIP_WITH_CHILD: self.values[RELATIONSHIP_WITH_CHILD].value,
+            PHONE: self.values[PHONE].value,
+            EMAIL: self.values[EMAIL].value
         }
 
         
@@ -56,7 +75,7 @@ class Programmer(DatabaseTable):
     
     @staticmethod
     def generate_select_query() -> str:
-        return f'SELECT * FROM {Programmer.TABLE_NAME};'
+        return f'SELECT * FROM {Parent.TABLE_NAME};'
     
 
             

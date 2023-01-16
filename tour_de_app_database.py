@@ -2,7 +2,6 @@ import mysql.connector
 from typing import Dict, Tuple, List, Any
 from login import *
 from flask import Response
-from record import Record
 from database_table import DatabaseTable
 from Errors import *
 from constants import *
