@@ -13,8 +13,6 @@ import json
 TABLE = MEMBERS_DATABASE
 
 class Member(DatabaseTable):
-    RATING_MINIMAL_VALUE: int = 0
-    RAGING_MAXIMAL_VALUE: int = 5
     TABLE_NAME: str = MEMBERS_DATABASE
 
 

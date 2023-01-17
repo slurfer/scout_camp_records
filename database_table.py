@@ -65,6 +65,7 @@ class DatabaseTable():
                 continue
 
             if value.updated:
+                value.updated=False
                 sql_header += ' ' + value_name + ' = %s, '
                 if type(value.value) == list:
                     sql_values.append(json.dumps(value.value))
@@ -100,5 +101,5 @@ class DatabaseTable():
         for value_name in self.values.keys():
             value = self.values[value_name]
             if value.is_obligatory and value.value == None:
-                return False
+                raise MissingOblitagoryValue(value_name)
         return True
