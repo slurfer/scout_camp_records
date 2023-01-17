@@ -33,6 +33,9 @@ class MyTest:
 
     def test_instance_to_string(instance, final_string: str):
         assert str(instance) == final_string, f'Error in converting record to string. Function returned:\n{str(instance)}\ninstead:\n{final_string}'
+    
+    def test_instance_to_dict(instance, final_dict: str):
+        assert instance.__dict__() == final_dict, f'Error in converting record to json. Function returned:\n{str(instance)}\ninstead:\n{final_dict}'
 
     def test_check_if_all_obligatory_values_provided(instance, value_name: str, is_obligatory: bool):
         if is_obligatory:

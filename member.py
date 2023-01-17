@@ -28,7 +28,8 @@ class Member(DatabaseTable):
         age_category_id: int = None,
         gender: str = None,
         mother_id = None,
-        father_id: List[int] = None,
+        father_id: int = None,
+        camp_ids: List[int] = None,
         description: str = None,
         query: str = None
     ) -> None:
@@ -47,6 +48,7 @@ class Member(DatabaseTable):
             GENDER: Value(GENDER, str, False, gender),
             MOTHER_ID: Value(MOTHER_ID, int, False, mother_id),
             FATHER_ID: Value(FATHER_ID, int, False, father_id),
+            # CAMP_IDS: Value(CAMP_IDS, List[int], False, camp_ids, do_store=False),
             DESCRIPTION: Value(DESCRIPTION, str, False, description)
         }
     
@@ -73,18 +75,6 @@ class Member(DatabaseTable):
         }
     
 
-    def __dict__(self):
-        return {
-            ID: self.values[ID].value,
-            NAME: self.values[NAME].value,
-            SURNAME: self.values[SURNAME].value,
-            BIRTH_DATE: self.values[BIRTH_DATE].value,
-            AGE_CATEGORY_ID: self.values[AGE_CATEGORY_ID].value,
-            GENDER: self.values[GENDER].value,
-            MOTHER_ID: self.values[MOTHER_ID].value,
-            FATHER_ID: self.values[FATHER_ID].value,
-            DESCRIPTION: self.values[DESCRIPTION].value,
-        }
 
         
         

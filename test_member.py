@@ -14,9 +14,13 @@ instance5 = Member(id=96, name="Alfons", surname="Mucha", birth_date="2004-07-12
 instance6 = Member(id=96, name="Alfons", surname="Mucha", birth_date="2004-07-12", age_category_id=1, gender="muž", father_id=2, description='Ahoj')
 instance7 = Member(id=96, name="Alfons", surname="Mucha", birth_date="2004-07-12", age_category_id=1, gender="muž", mother_id=1, father_id=2)
 instance8 = Member(id=96, name="Alfons", surname="Mucha", birth_date="2004-07-12", gender="muž", mother_id=1, father_id=2)
+
+# metadata
 instance9 = Member(id=96, time_created='2022-09-04 12:34:56', name="Alfons", surname="Mucha", birth_date="2004-07-12", age_category_id=1, gender="muž", mother_id=1, father_id=2, description='Ahoj')
 instance10 = Member(id=96, time_created='2022-09-04 12:34:56', time_updated='2022-09-05 15:16:24', name="Alfons", surname="Mucha", birth_date="2004-07-12", age_category_id=1, gender="muž", mother_id=1, father_id=2, description='Ahoj')
 
+# not storing data
+instance11 = Member(id=96, name="Alfons", surname="Mucha", birth_date="2004-07-12", age_category_id=1, gender="muž", mother_id=1, father_id=2, camp_ids=[1, 2, 3], description='Ahoj')
 
 
 # -------- testing get --------
@@ -59,6 +63,20 @@ MyTest.test_instance_to_string(instance4, '{"id": 96, "name": "Alfons", "surname
 MyTest.test_instance_to_string(instance5, '{"id": 96, "name": "Alfons", "surname": "Mucha", "birth_date": "2004-07-12", "age_category_id": 1, "gender": null, "mother_id": 1, "father_id": 2, "description": "Ahoj"}')
 MyTest.test_instance_to_string(instance6, '{"id": 96, "name": "Alfons", "surname": "Mucha", "birth_date": "2004-07-12", "age_category_id": 1, "gender": "muž", "mother_id": null, "father_id": 2, "description": "Ahoj"}')
 MyTest.test_instance_to_string(instance7, '{"id": 96, "name": "Alfons", "surname": "Mucha", "birth_date": "2004-07-12", "age_category_id": 1, "gender": "muž", "mother_id": 1, "father_id": 2, "description": null}')
+MyTest.test_instance_to_string(instance9, '{"id": 96, "name": "Alfons", "surname": "Mucha", "birth_date": "2004-07-12", "age_category_id": 1, "gender": "muž", "mother_id": 1, "father_id": 2, "description": "Ahoj"}')
+MyTest.test_instance_to_string(instance10, '{"id": 96, "name": "Alfons", "surname": "Mucha", "birth_date": "2004-07-12", "age_category_id": 1, "gender": "muž", "mother_id": 1, "father_id": 2, "description": "Ahoj"}')
+
+# -------- test record to json --------
+MyTest.test_instance_to_dict(instance1, {"id": 96, "name": "Božena", "surname": "Němcová", "birth_date": "1820-02-04", "age_category_id": 10, "gender": "žena", "mother_id": 5, "father_id": 6, "description": "Babička"})
+MyTest.test_instance_to_dict(instance2, {"id": 96, "name": None, "surname": "Mucha", "birth_date": "2004-07-12", "age_category_id": 1, "gender": "muž", "mother_id": 1, "father_id": 2, "description": "Ahoj"})
+MyTest.test_instance_to_dict(instance3, {"id": 96, "name": "Alfons", "surname": None, "birth_date": "2004-07-12", "age_category_id": 1, "gender": "muž", "mother_id": 1, "father_id": 2, "description": "Ahoj"})
+MyTest.test_instance_to_dict(instance4, {"id": 96, "name": "Alfons", "surname": "Mucha", "birth_date": None, "age_category_id": 1, "gender": "muž", "mother_id": 1, "father_id": 2, "description": "Ahoj"})
+MyTest.test_instance_to_dict(instance5, {"id": 96, "name": "Alfons", "surname": "Mucha", "birth_date": "2004-07-12", "age_category_id": 1, "gender": None, "mother_id": 1, "father_id": 2, "description": "Ahoj"})
+MyTest.test_instance_to_dict(instance6, {"id": 96, "name": "Alfons", "surname": "Mucha", "birth_date": "2004-07-12", "age_category_id": 1, "gender": "muž", "mother_id": None, "father_id": 2, "description": "Ahoj"})
+MyTest.test_instance_to_dict(instance7, {"id": 96, "name": "Alfons", "surname": "Mucha", "birth_date": "2004-07-12", "age_category_id": 1, "gender": "muž", "mother_id": 1, "father_id": 2, "description": None})
+MyTest.test_instance_to_dict(instance9, {"id": 96, "name": "Alfons", "surname": "Mucha", "birth_date": "2004-07-12", "age_category_id": 1, "gender": "muž", "mother_id": 1, "father_id": 2, "description": "Ahoj"})
+MyTest.test_instance_to_dict(instance10, {"id": 96, "name": "Alfons", "surname": "Mucha", "birth_date": "2004-07-12", "age_category_id": 1, "gender": "muž", "mother_id": 1, "father_id": 2, "description": "Ahoj"})
+MyTest.test_instance_to_dict(instance11, {"id": 96, "name": "Alfons", "surname": "Mucha", "birth_date": "2004-07-12", "age_category_id": 1, "gender": "muž", "mother_id": 1, "father_id": 2, "description": "Ahoj"})
 
 # -------- test if all obligatory arguments passed --------
 MyTest.test_check_if_all_obligatory_values_provided(instance2, NAME, True)

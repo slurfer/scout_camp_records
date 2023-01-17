@@ -35,7 +35,7 @@ class DatabaseTable():
 
         for value_name in self.values.keys():
             value = self.values[value_name]
-            if value.primary_key:
+            if value.primary_key or not value.do_store:
                 continue
 
             if not value.value == None:
@@ -61,7 +61,7 @@ class DatabaseTable():
 
         for value_name in self.values.keys():
             value = self.values[value_name]
-            if value.primary_key:
+            if value.primary_key or not value.do_store:
                 continue
 
             if value.updated:
@@ -105,3 +105,12 @@ class DatabaseTable():
             if value.is_obligatory and value.value == None:
                 raise MissingOblitagoryValue(value_name)
         return True
+    
+    def __dict__(self):
+        output_dict = {}
+        for value_name in self.values.keys():
+            value = self.values[value_name]
+            if not value.is_metadata:
+                output_dict[value_name] = value.value
+        
+        return output_dict
