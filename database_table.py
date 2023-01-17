@@ -89,7 +89,9 @@ class DatabaseTable():
     def __str__(self) -> str:
         output_dict = {}
         for value_name in self.values.keys():
-            output_dict[value_name] = self.values[value_name].value
+            value = self.values[value_name]
+            if not value.is_metadata:
+                output_dict[value_name] = value.value
         
         return json.dumps(output_dict, ensure_ascii=False)
     

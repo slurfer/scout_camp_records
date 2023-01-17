@@ -14,6 +14,8 @@ instance5 = Member(id=96, name="Alfons", surname="Mucha", birth_date="2004-07-12
 instance6 = Member(id=96, name="Alfons", surname="Mucha", birth_date="2004-07-12", age_category_id=1, gender="muž", father_id=2, description='Ahoj')
 instance7 = Member(id=96, name="Alfons", surname="Mucha", birth_date="2004-07-12", age_category_id=1, gender="muž", mother_id=1, father_id=2)
 instance8 = Member(id=96, name="Alfons", surname="Mucha", birth_date="2004-07-12", gender="muž", mother_id=1, father_id=2)
+instance9 = Member(id=96, time_created='2022-09-04 12:34:56', name="Alfons", surname="Mucha", birth_date="2004-07-12", age_category_id=1, gender="muž", mother_id=1, father_id=2, description='Ahoj')
+instance10 = Member(id=96, time_created='2022-09-04 12:34:56', time_updated='2022-09-05 15:16:24', name="Alfons", surname="Mucha", birth_date="2004-07-12", age_category_id=1, gender="muž", mother_id=1, father_id=2, description='Ahoj')
 
 
 
@@ -29,6 +31,8 @@ MyTest.test_create_insert_query(instance4, value_name=BIRTH_DATE)
 MyTest.test_create_insert_query(instance5, sql_string=('INSERT INTO members (name, surname, birth_date, age_category_id, mother_id, father_id, description) VALUES (%s, %s, %s, %s, %s, %s, %s)', ['Alfons', 'Mucha', '2004-07-12', 1, 1, 2, 'Ahoj']))
 MyTest.test_create_insert_query(instance6, sql_string=('INSERT INTO members (name, surname, birth_date, age_category_id, gender, father_id, description) VALUES (%s, %s, %s, %s, %s, %s, %s)', ['Alfons', 'Mucha', '2004-07-12', 1, 'muž', 2, 'Ahoj']))
 MyTest.test_create_insert_query(instance7, sql_string=('INSERT INTO members (name, surname, birth_date, age_category_id, gender, mother_id, father_id) VALUES (%s, %s, %s, %s, %s, %s, %s)', ['Alfons', 'Mucha', '2004-07-12', 1, 'muž', 1, 2]))
+MyTest.test_create_insert_query(instance9, sql_string=('INSERT INTO members (time_created, name, surname, birth_date, age_category_id, gender, mother_id, father_id, description) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)', ['2022-09-04 12:34:56', 'Alfons', 'Mucha', '2004-07-12', 1, 'muž', 1, 2, 'Ahoj']))
+MyTest.test_create_insert_query(instance10, sql_string=('INSERT INTO members (time_created, time_updated, name, surname, birth_date, age_category_id, gender, mother_id, father_id, description) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)', ['2022-09-04 12:34:56', '2022-09-05 15:16:24', 'Alfons', 'Mucha', '2004-07-12', 1, 'muž', 1, 2, 'Ahoj']))
 
 
 # -------- testing put --------

@@ -20,6 +20,8 @@ class Member(DatabaseTable):
     def __init__(
         self,
         id: int = None,
+        time_created: str = None,
+        time_updated: str = None,
         name: str = None,
         surname: str = None,
         birth_date: str = None,
@@ -36,6 +38,8 @@ class Member(DatabaseTable):
         else:
             self.values: Dict[str, Value] = {
             ID: Value(ID, int, True, id, primary_key=True, editable=False),
+            TIME_CREATED: Value(TIME_CREATED, str, False, time_created, is_metadata=True),
+            TIME_UPDATED: Value(TIME_UPDATED, str, False, time_updated, is_metadata=True),
             NAME: Value(NAME, str, True, name),
             SURNAME: Value(SURNAME, str, True, surname),
             BIRTH_DATE: Value(BIRTH_DATE, str, True, birth_date),
