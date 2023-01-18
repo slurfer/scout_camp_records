@@ -29,7 +29,7 @@ def get_data_from_request(request: Request) -> Dict[str, Any]:
 
 
 # ========================== MEMBERS ==========================
-def check_relationship_connections_member(data: Dict[str, Any]):
+def check_roreign_keys(data: Dict[str, Any], foreings_keys):
     ids_to_check = [
         (AGE_CATEGORY_ID, AGE_CATEGORIES_DATABASE),
         (MOTHER_ID, PARENTS_DATABASE),
@@ -46,7 +46,7 @@ def check_relationship_connections_member(data: Dict[str, Any]):
 def create_member():
     data = get_data_from_request(request)
     try:
-        check_relationship_connections_member(data)
+        check_roreign_keys(data, Member.FOREIGN_KEYS)
     except NonExistingKey as error:
         return str(error)
 
@@ -81,9 +81,13 @@ def update_member(id: str):
     if id==None or not DATABASE.check_if_id_exist(MEMBERS_DATABASE, int(id)):
         return str(NonExistingKey(ID, id))
     data = get_data_from_request(request)
+    try:
+        check_roreign_keys(data, Member.FOREIGN_KEYS)
+    except NonExistingKey as error:
+        return str(error)
+
     member = Member(request=data, id=id)
-    if type(member) == NonExistingKey:
-        return str(member)
+
     try:
         sql_insert, sql_insert_values = member.generate_update_query()
     except EmptyRequest as error:
@@ -113,9 +117,10 @@ def delete_member(id: str):
 @app.route('/parent', methods=['POST'])
 def create_parent():
     data = get_data_from_request(request)
+
+
     parent = Parent(request=data)
-    if type(parent) == NonExistingKey:
-        return str(parent)
+
     try:
         sql_insert, sql_insert_values = parent.generate_insert_query()
     except MissingOblitagoryValue as error:
@@ -145,10 +150,9 @@ def update_parent(id: str):
     if id==None or not DATABASE.check_if_id_exist(PARENTS_DATABASE, int(id)):
         return str(NonExistingKey(ID, id))
     data = get_data_from_request(request)
+
     member = Parent(request=data, id=id)
-    print(member)
-    if type(member) == NonExistingKey:
-        return str(member)
+
     try:
         sql_insert, sql_insert_values = member.generate_update_query()
     except EmptyRequest as error:

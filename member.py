@@ -28,6 +28,11 @@ class Member(DatabaseTable):
         # CAMP_IDS: Value(CAMP_IDS, List[int], False, camp_ids, do_store=False),
         DESCRIPTION: Value(DESCRIPTION, str, False)
     }
+    FOREIGN_KEYS: List[Tuple[str, str]] = [
+        (AGE_CATEGORY_ID, AGE_CATEGORIES_DATABASE),
+        (MOTHER_ID, PARENTS_DATABASE),
+        (FATHER_ID, PARENTS_DATABASE),
+    ]
 
 
 

@@ -24,6 +24,7 @@ class Parent(DatabaseTable):
             PHONE: Value(PHONE, str, False),
             EMAIL: Value(EMAIL, str, False)
         }
+    FOREIGN_KEYS: List[Tuple[str, str]] = None
 
 
 

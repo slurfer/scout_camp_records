@@ -12,6 +12,7 @@ class DatabaseTable():
     RAGING_MAXIMAL_VALUE: int
     TABLE_NAME: str
     VALUE_INFO: Dict[str, Value]
+    FOREIGN_KEYS: List[Tuple[str, str]]
 
     def __init__(self) -> None:
         self.values: Dict[str, Value]
