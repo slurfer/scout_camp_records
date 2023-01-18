@@ -20,7 +20,7 @@ class FailedToConnnectToDatabase(Exception):
     pass
 
 
-class NonExistingKey:
+class NonExistingKey(Exception):
     def __init__(self, key_name, key_value) -> None:
         self.message = f'Non existing key ({key_name} with value {key_value})'
 

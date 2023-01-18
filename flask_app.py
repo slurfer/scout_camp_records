@@ -29,14 +29,29 @@ def get_data_from_request(request: Request) -> Dict[str, Any]:
 
 
 # ========================== MEMBERS ==========================
+def check_relationship_connections_member(data: Dict[str, Any]):
+    ids_to_check = [
+        (AGE_CATEGORY_ID, AGE_CATEGORIES_DATABASE),
+        (MOTHER_ID, PARENTS_DATABASE),
+        (FATHER_ID, PARENTS_DATABASE),
+    ]
+    for id_to_check in ids_to_check:
+        if id_to_check[0] in data:
+            id = data[id_to_check[0]]
+            table_name = id_to_check[1]
+            if not DATABASE.check_if_id_exist(table_name, id):
+                raise NonExistingKey(table_name, id)
 
 @app.route('/member', methods=['POST'])
 def create_member():
     data = get_data_from_request(request)
-    print(data)
+    try:
+        check_relationship_connections_member(data)
+    except NonExistingKey as error:
+        return str(error)
+
     member = Member(request=data)
-    if type(member) == NonExistingKey:
-        return str(member)
+    
     try:
         sql_insert, sql_insert_values = member.generate_insert_query()
     except MissingOblitagoryValue as error:
