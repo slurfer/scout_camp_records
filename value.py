@@ -36,10 +36,22 @@ class Value:
     @value.setter
     def value(self, value: Any) -> None:
         if self.editable:
-            self._value = value
+            if not value==None:
+                self._value = self.type(value)
+            else:
+                self._value = value
         else:
             raise TryingToUpdateUnupdatableValue(self.name)
         self.updated = True
+    
+    def force_update(self, value: Any) -> None:
+        if not value==None:
+            self._value = self.type(value)
+        else:
+            self._value = value
+    
+    def __str__(self) -> str:
+        return f"Value: {{'name':{self.name}, 'value': {self.value}}}"
 
 
 # instance1 = Value('Test', str, True, 'value')

@@ -30,63 +30,11 @@ def get_data_from_request(request: Request) -> Dict[str, Any]:
 
 # ========================== MEMBERS ==========================
 
-def create_member_instance(data: Dict[str, Any], member_id: int = None) -> Member:
-    if not member_id == None:
-        member = Member(
-            id=member_id,
-        )
-    else:
-        member = Member()
-
-    # check, if obligatory values provided
-    if NAME in data.keys():
-        name = data[NAME]
-        member.update_value(NAME, name)
-    
-    if SURNAME in data.keys():
-        surname = data[SURNAME]
-        member.update_value(SURNAME, surname)
-    
-    if BIRTH_DATE in data.keys():
-        birth_date = data[BIRTH_DATE]
-        member.update_value(BIRTH_DATE, birth_date)
-    
-    if AGE_CATEGORY_ID in data.keys():
-        age_category_id = data[AGE_CATEGORY_ID]
-        
-        if not age_category_id==None and not DATABASE.check_if_id_exist(AGE_CATEGORIES_DATABASE, int(age_category_id)):
-            return NonExistingKey(AGE_CATEGORY_ID, age_category_id)
-        member.update_value(AGE_CATEGORY_ID, age_category_id)
-
-    if GENDER in data.keys():
-        rating = data[GENDER]
-        member.update_value(GENDER, rating)
-    
-    if MOTHER_ID in data.keys():
-        father_id = data[MOTHER_ID]
-        
-        if not father_id==None and not DATABASE.check_if_id_exist(PARENTS_DATABASE, int(father_id)):
-            return NonExistingKey(MOTHER_ID, father_id)
-        member.update_value(MOTHER_ID, father_id)
-    
-    if FATHER_ID in data.keys():
-        father_id = data[FATHER_ID]
-        
-        if not father_id==None and not DATABASE.check_if_id_exist(PARENTS_DATABASE, int(father_id)):
-            return NonExistingKey(FATHER_ID, father_id)
-        member.update_value(FATHER_ID, father_id)
-    
-    if DESCRIPTION in data.keys():
-        description = data[DESCRIPTION]
-        member.update_value(DESCRIPTION, description)
-    
-    return member
-
-
 @app.route('/member', methods=['POST'])
 def create_member():
     data = get_data_from_request(request)
-    member = create_member_instance(data)
+    print(data)
+    member = Member(request=data)
     if type(member) == NonExistingKey:
         return str(member)
     try:
@@ -118,7 +66,7 @@ def update_member(id: str):
     if id==None or not DATABASE.check_if_id_exist(MEMBERS_DATABASE, int(id)):
         return str(NonExistingKey(ID, id))
     data = get_data_from_request(request)
-    member = create_member_instance(data, id)
+    member = Member(request=data, id=id)
     if type(member) == NonExistingKey:
         return str(member)
     try:

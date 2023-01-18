@@ -4,6 +4,7 @@ from Errors import *
 import pytest
 from typing import Tuple, Any
 from testing_database_table import MyTest
+import datetime
 
 
 instance1 = Member(id=96, name="Alfons", surname="Mucha", birth_date="2004-07-12", age_category_id=1, gender="muž", mother_id=1, father_id=2, description='Ahoj')
@@ -22,6 +23,23 @@ instance10 = Member(id=96, time_created='2022-09-04 12:34:56', time_updated='202
 # not storing data
 instance11 = Member(id=96, name="Alfons", surname="Mucha", birth_date="2004-07-12", age_category_id=1, gender="muž", mother_id=1, father_id=2, camp_ids=[1, 2, 3], description='Ahoj')
 
+# query
+instance1_query = (96, datetime.date(2004, 7, 12), datetime.date(2004, 7, 12), 'Alfons', 'Mucha', datetime.date(2004, 7, 12), 1, 'muž', 1, 2, 'Ahoj')
+# instance5_query = ((12, 'Alfons', 'Mucha', datetime.date(2004, 7, 12), 1, None, 1, 2, 'Ahoj'))
+# instance6_query = ((13, 'Alfons', 'Mucha', datetime.date(2004, 7, 12), 1, 'muž', None, 2, 'Ahoj'))
+# instance7_query = ((14, 'Alfons', 'Mucha', datetime.date(2004, 7, 12), 1, 'muž', 1, 2, None))
+# instance8_query = ()
+# instance9_query = ()
+# instance10_query = ()
+instance11_query = ((11, 'Alfons', 'Mucha', datetime.date(2004, 7, 12), 1, 'muž', 1, 2, 'Ahoj'))
+
+# -------- testing create instance --------
+MyTest.create_instance_from_query(instance1_query, Member, instance1)
+
+# -------- testing create instance from request --------
+request_data = {'name': 'Martin', 'surname': 'Doušek', 'birth_date': '2004-09-17', 'description': 'So this is good.', 'age_category_id': 1, 'mother_id': 1, 'father_id': 2}
+request_intance = Member(name='Martin', surname='Doušek', birth_date='2004-09-17', description='So this is good.', age_category_id=1, mother_id=1, father_id=2)
+MyTest.test_create_instance_from_request(request_data, class_variable=Member, instance=request_intance)
 
 # -------- testing get --------
 MyTest.test_select_query(Member, 'SELECT * FROM members;')
@@ -35,8 +53,10 @@ MyTest.test_create_insert_query(instance4, value_name=BIRTH_DATE)
 MyTest.test_create_insert_query(instance5, sql_string=('INSERT INTO members (name, surname, birth_date, age_category_id, mother_id, father_id, description) VALUES (%s, %s, %s, %s, %s, %s, %s)', ['Alfons', 'Mucha', '2004-07-12', 1, 1, 2, 'Ahoj']))
 MyTest.test_create_insert_query(instance6, sql_string=('INSERT INTO members (name, surname, birth_date, age_category_id, gender, father_id, description) VALUES (%s, %s, %s, %s, %s, %s, %s)', ['Alfons', 'Mucha', '2004-07-12', 1, 'muž', 2, 'Ahoj']))
 MyTest.test_create_insert_query(instance7, sql_string=('INSERT INTO members (name, surname, birth_date, age_category_id, gender, mother_id, father_id) VALUES (%s, %s, %s, %s, %s, %s, %s)', ['Alfons', 'Mucha', '2004-07-12', 1, 'muž', 1, 2]))
+MyTest.test_create_insert_query(instance8, sql_string=('INSERT INTO members (name, surname, birth_date, gender, mother_id, father_id) VALUES (%s, %s, %s, %s, %s, %s)', ['Alfons', 'Mucha', '2004-07-12', 'muž', 1, 2]))
 MyTest.test_create_insert_query(instance9, sql_string=('INSERT INTO members (time_created, name, surname, birth_date, age_category_id, gender, mother_id, father_id, description) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)', ['2022-09-04 12:34:56', 'Alfons', 'Mucha', '2004-07-12', 1, 'muž', 1, 2, 'Ahoj']))
 MyTest.test_create_insert_query(instance10, sql_string=('INSERT INTO members (time_created, time_updated, name, surname, birth_date, age_category_id, gender, mother_id, father_id, description) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)', ['2022-09-04 12:34:56', '2022-09-05 15:16:24', 'Alfons', 'Mucha', '2004-07-12', 1, 'muž', 1, 2, 'Ahoj']))
+MyTest.test_create_insert_query(instance11, sql_string=('INSERT INTO members (name, surname, birth_date, age_category_id, gender, mother_id, father_id, description) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)', ['Alfons', 'Mucha', '2004-07-12', 1, 'muž', 1, 2, 'Ahoj']))
 
 
 # -------- testing put --------

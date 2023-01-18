@@ -4,20 +4,49 @@ from typing import Dict, Tuple, List, Any
 from value import Value
 from Errors import *
 import json
+import copy
 
 
 class DatabaseTable():
     RATING_MINIMAL_VALUE: int
     RAGING_MAXIMAL_VALUE: int
     TABLE_NAME: str
+    VALUE_INFO: Dict[str, Value]
 
     def __init__(self) -> None:
         self.values: Dict[str, Value]
 
 
-    def __get_data_from_query(self, query):
-            pass
+    def init_from_tuple(self, tuple: Tuple[Any]):
+        value_names = list(self.VALUE_INFO.keys())
+        self.values = {}
+        i = 0
+        while i < len(tuple):
+            value_name = value_names[i]
+            if not self.VALUE_INFO[value_name].do_store:
+                i += 1
+                if i == len(tuple):
+                    break
+            value_name = value_names[i]
+            value_instance = copy.copy(self.VALUE_INFO[value_name])
+            value_instance.force_update(tuple[i]) 
+            self.values[value_name] = value_instance
+            i += 1
     
+    def init_from_request(self, data: Dict[str, Any], id: int = None):
+        data[ID] = id
+        value_keys = list(self.VALUE_INFO.keys())
+        provided_data_keys = list(data.keys())
+        self.values = {}
+        for key in value_keys:
+            value_instance = copy.copy(self.VALUE_INFO[key])
+            if key in provided_data_keys:
+                value_instance.force_update(data[key])
+            else:
+                value_instance.force_update(None)
+            self.values[key] = value_instance
+
+        
     def get_value_by_name(self, name: str) -> Value:
         for value in self.values:
             if value.name == name:
