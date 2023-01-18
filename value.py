@@ -15,7 +15,7 @@ class Value:
         updated: bool = False,
         editable: bool = True,
         is_metadata: bool = False,
-        do_store: bool = True
+        do_store: bool = True,
     ) -> None:
         self.name: str = name
         self.type: Any = type
@@ -49,6 +49,7 @@ class Value:
             self._value = self.type(value)
         else:
             self._value = value
+        self.updated = True
     
     def __str__(self) -> str:
         return f"Value: {{'name':{self.name}, 'value': {self.value}}}"

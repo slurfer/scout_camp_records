@@ -95,42 +95,10 @@ def delete_member(id: str):
 
 # ========================== PARENTS ==========================
 
-def create_parent_instance(data: Dict[str, Any], member_id: int = None) -> Parent:
-    if not member_id == None:
-        parent = Parent(
-            id=member_id,
-        )
-    else:
-        parent = Parent()
-
-    # check, if obligatory values provided
-    if NAME in data.keys():
-        name = data[NAME]
-        parent.update_value(NAME, name)
-    
-    if SURNAME in data.keys():
-        surname = data[SURNAME]
-        parent.update_value(SURNAME, surname)
-    
-    if RELATIONSHIP_WITH_CHILD in data.keys():
-        relationship_with_child = data[RELATIONSHIP_WITH_CHILD]
-        parent.update_value(RELATIONSHIP_WITH_CHILD, relationship_with_child)
-
-    if PHONE in data.keys():
-        phone = data[PHONE]
-        parent.update_value(PHONE, phone)
-    
-    if EMAIL in data.keys():
-        email = data[EMAIL]
-        parent.update_value(EMAIL, email)
-    
-    return parent
-
-
 @app.route('/parent', methods=['POST'])
 def create_parent():
     data = get_data_from_request(request)
-    parent = create_parent_instance(data)
+    parent = Parent(request=data)
     if type(parent) == NonExistingKey:
         return str(parent)
     try:
@@ -162,12 +130,14 @@ def update_parent(id: str):
     if id==None or not DATABASE.check_if_id_exist(PARENTS_DATABASE, int(id)):
         return str(NonExistingKey(ID, id))
     data = get_data_from_request(request)
-    member = create_parent_instance(data, id)
+    member = Parent(request=data, id=id)
+    print(member)
     if type(member) == NonExistingKey:
         return str(member)
     try:
         sql_insert, sql_insert_values = member.generate_update_query()
     except EmptyRequest as error:
+        print(error)
         return str(error)
     print(sql_insert, sql_insert_values)
     response = DATABASE.update(sql_insert, sql_insert_values)
