@@ -6,6 +6,7 @@ from typing import Dict, Tuple, List, Any
 from flask_cors import CORS
 from member import Member
 from parent import Parent
+from age_category import AgeCategory
 from constants import *
 from tour_de_app_database import TourDeAppDatabase
 from classes import *
@@ -315,6 +316,70 @@ def delete_participant(member_id: str):
     return DATABASE.delete(sql_command, [member_id])
 
 
+# ========================== AGE_CATEGORIES ==========================
+
+@app.route('/age_category', methods=['POST'])
+def create_age_category():
+    data = get_data_from_request(request)
+
+
+    age_category = AgeCategory(request=data)
+
+    try:
+        sql_insert, sql_insert_values = age_category.generate_insert_query()
+    except MissingOblitagoryValue as error:
+        return str(error)
+    response = AgeCategory(query = DATABASE.insert(sql_insert, sql_insert_values).data[0])
+    flask_response = flask.Response(str(response))
+    flask_response.headers['Access-Control-Allow-Origin'] = '*'
+    return flask_response
+
+
+@app.route('/age_category', methods=['GET'])
+def get_age_category_info():
+    sql_select = AgeCategory.generate_select_query()
+    select_response = DATABASE.select(sql_select)
+    response = []
+    for item in select_response.data:
+        age_category = AgeCategory(query=item)
+        response.append(age_category.__dict__())
+
+    response_str = json.dumps(response, ensure_ascii=False)
+    flask_response = flask.Response(response_str)
+    flask_response.headers['Access-Control-Allow-Origin'] = '*'
+    return flask_response
+
+@app.route('/age_category/<id>', methods=['PUT'])
+def update_age_category(id: str):
+    if id==None or not DATABASE.check_if_id_exist(AGE_CATEGORIES_DATABASE, int(id)):
+        return str(NonExistingKey(ID, id))
+    data = get_data_from_request(request)
+
+    age_category = AgeCategory(request=data, id=id)
+
+    try:
+        sql_insert, sql_insert_values = age_category.generate_update_query()
+    except EmptyRequest as error:
+        print(error)
+        return str(error)
+    print(sql_insert, sql_insert_values)
+    response = DATABASE.update(sql_insert, sql_insert_values)
+
+    flask_response = flask.Response(str(response))
+    flask_response.headers['Access-Control-Allow-Origin'] = '*'
+    return flask_response
+
+
+
+@app.route('/age_category/<id>', methods=['DELETE'])
+def delete_age_category(id: str):
+    sql_command: str = f'DELETE FROM {AGE_CATEGORIES_DATABASE} WHERE id = %s;'
+    if id==None or not DATABASE.check_if_id_exist(AGE_CATEGORIES_DATABASE, int(id)):
+        return str(NonExistingKey(ID, id))
+    response = DATABASE.delete(sql_command, [id])
+    flask_response = flask.Response(str(response))
+    flask_response.headers['Access-Control-Allow-Origin'] = '*'
+    return flask_response
 
 
 
