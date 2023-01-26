@@ -44,12 +44,15 @@ class Value:
             raise TryingToUpdateUnupdatableValue(self.name)
         self.updated = True
     
-    def force_update(self, value: Any) -> None:
+    def force_update(self, value: Any, set_updated = False) -> None:
         if not value==None:
             self._value = self.type(value)
         else:
             self._value = value
-        self.updated = True
+        
+        if set_updated:
+            self.updated = True
+
     
     def __str__(self) -> str:
         return f"Value: {{'name':{self.name}, 'value': {self.value}}}"

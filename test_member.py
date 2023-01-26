@@ -21,24 +21,26 @@ instance9 = Member(id=96, time_created='2022-09-04 12:34:56', name="Alfons", sur
 instance10 = Member(id=96, time_created='2022-09-04 12:34:56', time_updated='2022-09-05 15:16:24', name="Alfons", surname="Mucha", birth_date="2004-07-12", age_category_id=1, gender="muž", mother_id=1, father_id=2, description='Ahoj')
 
 # not storing data
-instance11 = Member(id=96, name="Alfons", surname="Mucha", birth_date="2004-07-12", age_category_id=1, gender="muž", mother_id=1, father_id=2, camp_ids=[1, 2, 3], description='Ahoj')
-
+instance11 = Member(id=96, name="Alfons", surname="Mucha", birth_date="2004-07-12", age_category_id=1, gender="muž", mother_id=1, father_id=2, description='Ahoj')
+# 
 # query
 instance1_query = (96, datetime.date(2004, 7, 12), datetime.date(2004, 7, 12), 'Alfons', 'Mucha', datetime.date(2004, 7, 12), 1, 'muž', 1, 2, 'Ahoj')
-# instance5_query = ((12, 'Alfons', 'Mucha', datetime.date(2004, 7, 12), 1, None, 1, 2, 'Ahoj'))
-# instance6_query = ((13, 'Alfons', 'Mucha', datetime.date(2004, 7, 12), 1, 'muž', None, 2, 'Ahoj'))
-# instance7_query = ((14, 'Alfons', 'Mucha', datetime.date(2004, 7, 12), 1, 'muž', 1, 2, None))
-# instance8_query = ()
-# instance9_query = ()
-# instance10_query = ()
-instance11_query = ((11, 'Alfons', 'Mucha', datetime.date(2004, 7, 12), 1, 'muž', 1, 2, 'Ahoj'))
+instance5_query = ((12, 'Alfons', 'Mucha', datetime.date(2004, 7, 12), 1, None, 1, 2, 'Ahoj'))
+instance6_query = ((13, 'Alfons', 'Mucha', datetime.date(2004, 7, 12), 1, 'muž', None, 2, 'Ahoj'))
+instance7_query = ((14, 'Alfons', 'Mucha', datetime.date(2004, 7, 12), 1, 'muž', 1, 2, None))
+instance8_query = ()
+instance9_query = ()
+instance10_query = ()
+instance11_query = ((96, datetime.date(2004, 7, 12), datetime.date(2004, 7, 12), 'Alfons', 'Mucha', datetime.date(2004, 7, 12), 1, 'muž', 1, 2, 'Ahoj'))
+
 
 # -------- testing create instance --------
 MyTest.create_instance_from_query(instance1_query, Member, instance1)
+MyTest.create_instance_from_query(instance11_query, Member, instance11)
 
 # -------- testing create instance from request --------
-request_data = {'name': 'Martin', 'surname': 'Doušek', 'birth_date': '2004-09-17', 'description': 'So this is good.', 'age_category_id': 1, 'mother_id': 1, 'father_id': 2}
-request_intance = Member(name='Martin', surname='Doušek', birth_date='2004-09-17', description='So this is good.', age_category_id=1, mother_id=1, father_id=2)
+request_data = {'name': 'Martin', 'surname': 'Doušek', 'birth_date': '2004-09-17', 'description': 'So this is good.', 'age_category_id': 1, 'mother_id': 1, 'father_id': 2, 'camp_ids': [1, 2, 3]}
+request_intance = Member(name='Martin', surname='Doušek', birth_date='2004-09-17', description='So this is good.', age_category_id=1, mother_id=1, father_id=2, camp_ids=[1, 2, 3])
 MyTest.test_create_instance_from_request(request_data, class_variable=Member, instance=request_intance)
 
 # -------- testing get --------
@@ -76,27 +78,27 @@ assert instance1.generate_delete_query() == ('DELETE FROM members WHERE id = %s;
 
 
 # -------- test record to str --------
-MyTest.test_instance_to_string(instance1, '{"id": 96, "name": "Božena", "surname": "Němcová", "birth_date": "1820-02-04", "age_category_id": 10, "gender": "žena", "mother_id": 5, "father_id": 6, "description": "Babička"}')
-MyTest.test_instance_to_string(instance2, '{"id": 96, "name": null, "surname": "Mucha", "birth_date": "2004-07-12", "age_category_id": 1, "gender": "muž", "mother_id": 1, "father_id": 2, "description": "Ahoj"}')
-MyTest.test_instance_to_string(instance3, '{"id": 96, "name": "Alfons", "surname": null, "birth_date": "2004-07-12", "age_category_id": 1, "gender": "muž", "mother_id": 1, "father_id": 2, "description": "Ahoj"}')
-MyTest.test_instance_to_string(instance4, '{"id": 96, "name": "Alfons", "surname": "Mucha", "birth_date": null, "age_category_id": 1, "gender": "muž", "mother_id": 1, "father_id": 2, "description": "Ahoj"}')
-MyTest.test_instance_to_string(instance5, '{"id": 96, "name": "Alfons", "surname": "Mucha", "birth_date": "2004-07-12", "age_category_id": 1, "gender": null, "mother_id": 1, "father_id": 2, "description": "Ahoj"}')
-MyTest.test_instance_to_string(instance6, '{"id": 96, "name": "Alfons", "surname": "Mucha", "birth_date": "2004-07-12", "age_category_id": 1, "gender": "muž", "mother_id": null, "father_id": 2, "description": "Ahoj"}')
-MyTest.test_instance_to_string(instance7, '{"id": 96, "name": "Alfons", "surname": "Mucha", "birth_date": "2004-07-12", "age_category_id": 1, "gender": "muž", "mother_id": 1, "father_id": 2, "description": null}')
-MyTest.test_instance_to_string(instance9, '{"id": 96, "name": "Alfons", "surname": "Mucha", "birth_date": "2004-07-12", "age_category_id": 1, "gender": "muž", "mother_id": 1, "father_id": 2, "description": "Ahoj"}')
-MyTest.test_instance_to_string(instance10, '{"id": 96, "name": "Alfons", "surname": "Mucha", "birth_date": "2004-07-12", "age_category_id": 1, "gender": "muž", "mother_id": 1, "father_id": 2, "description": "Ahoj"}')
+MyTest.test_instance_to_string(instance1, '{"id": 96, "name": "Božena", "surname": "Němcová", "birth_date": "1820-02-04", "age_category_id": 10, "gender": "žena", "mother_id": 5, "father_id": 6, "camp_ids": null, "description": "Babička"}')
+MyTest.test_instance_to_string(instance2, '{"id": 96, "name": null, "surname": "Mucha", "birth_date": "2004-07-12", "age_category_id": 1, "gender": "muž", "mother_id": 1, "father_id": 2, "camp_ids": null, "description": "Ahoj"}')
+MyTest.test_instance_to_string(instance3, '{"id": 96, "name": "Alfons", "surname": null, "birth_date": "2004-07-12", "age_category_id": 1, "gender": "muž", "mother_id": 1, "father_id": 2, "camp_ids": null, "description": "Ahoj"}')
+MyTest.test_instance_to_string(instance4, '{"id": 96, "name": "Alfons", "surname": "Mucha", "birth_date": null, "age_category_id": 1, "gender": "muž", "mother_id": 1, "father_id": 2, "camp_ids": null, "description": "Ahoj"}')
+MyTest.test_instance_to_string(instance5, '{"id": 96, "name": "Alfons", "surname": "Mucha", "birth_date": "2004-07-12", "age_category_id": 1, "gender": null, "mother_id": 1, "father_id": 2, "camp_ids": null, "description": "Ahoj"}')
+MyTest.test_instance_to_string(instance6, '{"id": 96, "name": "Alfons", "surname": "Mucha", "birth_date": "2004-07-12", "age_category_id": 1, "gender": "muž", "mother_id": null, "father_id": 2, "camp_ids": null, "description": "Ahoj"}')
+MyTest.test_instance_to_string(instance7, '{"id": 96, "name": "Alfons", "surname": "Mucha", "birth_date": "2004-07-12", "age_category_id": 1, "gender": "muž", "mother_id": 1, "father_id": 2, "camp_ids": null, "description": null}')
+MyTest.test_instance_to_string(instance9, '{"id": 96, "name": "Alfons", "surname": "Mucha", "birth_date": "2004-07-12", "age_category_id": 1, "gender": "muž", "mother_id": 1, "father_id": 2, "camp_ids": null, "description": "Ahoj"}')
+MyTest.test_instance_to_string(instance10, '{"id": 96, "name": "Alfons", "surname": "Mucha", "birth_date": "2004-07-12", "age_category_id": 1, "gender": "muž", "mother_id": 1, "father_id": 2, "camp_ids": null, "description": "Ahoj"}')
 
 # -------- test record to json --------
-MyTest.test_instance_to_dict(instance1, {"id": 96, "name": "Božena", "surname": "Němcová", "birth_date": "1820-02-04", "age_category_id": 10, "gender": "žena", "mother_id": 5, "father_id": 6, "description": "Babička"})
-MyTest.test_instance_to_dict(instance2, {"id": 96, "name": None, "surname": "Mucha", "birth_date": "2004-07-12", "age_category_id": 1, "gender": "muž", "mother_id": 1, "father_id": 2, "description": "Ahoj"})
-MyTest.test_instance_to_dict(instance3, {"id": 96, "name": "Alfons", "surname": None, "birth_date": "2004-07-12", "age_category_id": 1, "gender": "muž", "mother_id": 1, "father_id": 2, "description": "Ahoj"})
-MyTest.test_instance_to_dict(instance4, {"id": 96, "name": "Alfons", "surname": "Mucha", "birth_date": None, "age_category_id": 1, "gender": "muž", "mother_id": 1, "father_id": 2, "description": "Ahoj"})
-MyTest.test_instance_to_dict(instance5, {"id": 96, "name": "Alfons", "surname": "Mucha", "birth_date": "2004-07-12", "age_category_id": 1, "gender": None, "mother_id": 1, "father_id": 2, "description": "Ahoj"})
-MyTest.test_instance_to_dict(instance6, {"id": 96, "name": "Alfons", "surname": "Mucha", "birth_date": "2004-07-12", "age_category_id": 1, "gender": "muž", "mother_id": None, "father_id": 2, "description": "Ahoj"})
-MyTest.test_instance_to_dict(instance7, {"id": 96, "name": "Alfons", "surname": "Mucha", "birth_date": "2004-07-12", "age_category_id": 1, "gender": "muž", "mother_id": 1, "father_id": 2, "description": None})
-MyTest.test_instance_to_dict(instance9, {"id": 96, "name": "Alfons", "surname": "Mucha", "birth_date": "2004-07-12", "age_category_id": 1, "gender": "muž", "mother_id": 1, "father_id": 2, "description": "Ahoj"})
-MyTest.test_instance_to_dict(instance10, {"id": 96, "name": "Alfons", "surname": "Mucha", "birth_date": "2004-07-12", "age_category_id": 1, "gender": "muž", "mother_id": 1, "father_id": 2, "description": "Ahoj"})
-MyTest.test_instance_to_dict(instance11, {"id": 96, "name": "Alfons", "surname": "Mucha", "birth_date": "2004-07-12", "age_category_id": 1, "gender": "muž", "mother_id": 1, "father_id": 2, "description": "Ahoj"})
+MyTest.test_instance_to_dict(instance1, {"id": 96, "name": "Božena", "surname": "Němcová", "birth_date": "1820-02-04", "age_category_id": 10, "gender": "žena", "mother_id": 5, "father_id": 6, "camp_ids": None, "description": "Babička"})
+MyTest.test_instance_to_dict(instance2, {"id": 96, "name": None, "surname": "Mucha", "birth_date": "2004-07-12", "age_category_id": 1, "gender": "muž", "mother_id": 1, "father_id": 2, "camp_ids": None, "description": "Ahoj"})
+MyTest.test_instance_to_dict(instance3, {"id": 96, "name": "Alfons", "surname": None, "birth_date": "2004-07-12", "age_category_id": 1, "gender": "muž", "mother_id": 1, "father_id": 2, "camp_ids": None, "description": "Ahoj"})
+MyTest.test_instance_to_dict(instance4, {"id": 96, "name": "Alfons", "surname": "Mucha", "birth_date": None, "age_category_id": 1, "gender": "muž", "mother_id": 1, "father_id": 2, "camp_ids": None, "description": "Ahoj"})
+MyTest.test_instance_to_dict(instance5, {"id": 96, "name": "Alfons", "surname": "Mucha", "birth_date": "2004-07-12", "age_category_id": 1, "gender": None, "mother_id": 1, "father_id": 2, "camp_ids": None, "description": "Ahoj"})
+MyTest.test_instance_to_dict(instance6, {"id": 96, "name": "Alfons", "surname": "Mucha", "birth_date": "2004-07-12", "age_category_id": 1, "gender": "muž", "mother_id": None, "father_id": 2, "camp_ids": None, "description": "Ahoj"})
+MyTest.test_instance_to_dict(instance7, {"id": 96, "name": "Alfons", "surname": "Mucha", "birth_date": "2004-07-12", "age_category_id": 1, "gender": "muž", "mother_id": 1, "father_id": 2, "camp_ids": None, "description": None})
+MyTest.test_instance_to_dict(instance9, {"id": 96, "name": "Alfons", "surname": "Mucha", "birth_date": "2004-07-12", "age_category_id": 1, "gender": "muž", "mother_id": 1, "father_id": 2, "camp_ids": None, "description": "Ahoj"})
+MyTest.test_instance_to_dict(instance10, {"id": 96, "name": "Alfons", "surname": "Mucha", "birth_date": "2004-07-12", "age_category_id": 1, "gender": "muž", "mother_id": 1, "father_id": 2, "camp_ids": None, "description": "Ahoj"})
+MyTest.test_instance_to_dict(instance11, {"id": 96, "name": "Alfons", "surname": "Mucha", "birth_date": "2004-07-12", "age_category_id": 1, "gender": "muž", "mother_id": 1, "father_id": 2, "camp_ids": None, "description": "Ahoj"})
 
 # -------- test if all obligatory arguments passed --------
 MyTest.test_check_if_all_obligatory_values_provided(instance2, NAME, True)

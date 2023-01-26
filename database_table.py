@@ -18,19 +18,19 @@ class DatabaseTable():
         self.values: Dict[str, Value]
 
 
-    def init_from_tuple(self, tuple: Tuple[Any]):
-        value_names = list(self.VALUE_INFO.keys())
-        self.values = {}
+    def init_from_tuple(self, tuple: Tuple[Any], ignore_values_with_not_store_flag: bool = False):
+        value_keys = list(self.VALUE_INFO.keys())
         i = 0
-        while i < len(tuple):
-            value_name = value_names[i]
-            if not self.VALUE_INFO[value_name].do_store:
-                i += 1
-                if i == len(tuple):
-                    break
-            value_name = value_names[i]
+        self.values = {}
+        skipped_values = 0
+        while i < len(value_keys):
+            value_name = value_keys[i]
+            value_value = tuple[i-skipped_values]
             value_instance = copy.copy(self.VALUE_INFO[value_name])
-            value_instance.force_update(tuple[i]) 
+            if self.VALUE_INFO[value_name].do_store or ignore_values_with_not_store_flag:
+                value_instance.force_update(tuple[i-skipped_values])
+            else:
+                skipped_values += 1
             self.values[value_name] = value_instance
             i += 1
     
@@ -42,7 +42,7 @@ class DatabaseTable():
         for key in value_keys:
             value_instance = copy.copy(self.VALUE_INFO[key])
             if key in provided_data_keys:
-                value_instance.force_update(data[key])
+                value_instance.force_update(data[key], set_updated=True)
             else:
                 value_instance.force_update(None)
             self.values[key] = value_instance

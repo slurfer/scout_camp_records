@@ -29,12 +29,12 @@ def close_database(mydb, mycursor):
 
 class TourDeAppDatabase:
     
-    def select(self, sql_command: str) -> SelectQueryResponse:
+    def select(self, sql_command: str, sql_values = ()) -> SelectQueryResponse:
         # -------- create connection --------
         database, cursor = connect_to_database()
         
         # -------- execute command --------
-        cursor.execute(sql_command)
+        cursor.execute(sql_command, sql_values)
         response = cursor.fetchall()
         
         # -------- close connection --------

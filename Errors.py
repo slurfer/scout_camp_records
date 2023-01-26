@@ -4,9 +4,11 @@ import json
 class MissingOblitagoryValue(Exception):
     def __init__(self, value_name = '') -> None:
         self.value_name = value_name
+        self.message = f'Missing obligatory value "{self.value_name}"'
     
     def __str__(self) -> str:
-        return f'Missing obligatory value "{self.value_name}"'
+        print(self.message)
+        return self.message
 
 class TryingToUpdateUnupdatableValue(Exception):
     def __init__(self, value_name: str) -> None:
@@ -14,6 +16,7 @@ class TryingToUpdateUnupdatableValue(Exception):
         self.code = 400
     
     def __str__(self) -> str:
+        print(self.message)
         return self.message
 
 class FailedToConnnectToDatabase(Exception):
@@ -25,6 +28,7 @@ class NonExistingKey(Exception):
         self.message = f'Non existing key ({key_name} with value {key_value})'
 
     def __str__(self) -> str:
+        print(self.message)
         return self.message
 
 
@@ -33,6 +37,7 @@ class EmptyRequest(Exception):
         self.message = f'Empty Request'
 
     def __str__(self) -> str:
+        print(self.message)
         return self.message
 
 
@@ -44,4 +49,5 @@ class DatabaseOperationResult:
         self.data = data
     
     def __str__(self):
+        print(self.message)
         return self.message

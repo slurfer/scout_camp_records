@@ -25,7 +25,7 @@ class Member(DatabaseTable):
         GENDER: Value(GENDER, str, False),
         MOTHER_ID: Value(MOTHER_ID, int, False),
         FATHER_ID: Value(FATHER_ID, int, False),
-        # CAMP_IDS: Value(CAMP_IDS, List[int], False, camp_ids, do_store=False),
+        CAMP_IDS: Value(CAMP_IDS, list, False, do_store=False),
         DESCRIPTION: Value(DESCRIPTION, str, False)
     }
     FOREIGN_KEYS: List[Tuple[str, str]] = [
@@ -70,9 +70,9 @@ class Member(DatabaseTable):
                 gender,
                 mother_id,
                 father_id,
-                # camp_ids,
+                camp_ids,
                 description
-            ))
+            ), ignore_values_with_not_store_flag=True)
     @staticmethod
     def generate_select_query() -> str:
         return f'SELECT * FROM {Member.TABLE_NAME};'
