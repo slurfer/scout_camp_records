@@ -53,9 +53,6 @@ class DatabaseTable():
             if value.name == name:
                 return value
 
-    def generate_select_query() -> str:
-        return f'SELECT * FROM {DatabaseTable.TABLE_NAME};'
-    
     def generate_insert_query(self) -> Tuple[str, List[Any]]:
         sql_header = f'INSERT INTO {self.TABLE_NAME} '
         sql_values = []
