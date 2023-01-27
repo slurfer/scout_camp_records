@@ -37,7 +37,7 @@ def check_roreign_keys(data: Dict[str, Any], foreings_keys):
             id = data[id_to_check[0]]
             table_name = id_to_check[1]
             if not DATABASE.check_if_id_exist(table_name, id) and not id == None:
-                raise ValueError
+                raise NonExistingKey(table_name, id)
     return None
 
 # ========================== MEMBERS ==========================
