@@ -166,10 +166,10 @@ def update_parent(id: str):
         return str(NonExistingKey(ID, id))
     data = get_data_from_request(request)
 
-    member = Parent(request=data, id=id)
+    parent = Parent(request=data, id=id)
 
     try:
-        sql_insert, sql_insert_values = member.generate_update_query()
+        sql_insert, sql_insert_values = parent.generate_update_query()
     except EmptyRequest as error:
         print(error)
         return str(error)
